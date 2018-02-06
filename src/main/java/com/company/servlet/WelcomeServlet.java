@@ -1,33 +1,42 @@
 package com.company.servlet;
 
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 
-@WebServlet("/Hello")
-public class WelcomeServlet extends HttpServlet {
 
-   private String message;
+public class WelcomeServlet implements Servlet {
 
-    public WelcomeServlet() {
-        super();
-        message = "Hello World";
+    private ServletConfig config;
+
+    public void init(ServletConfig config) throws ServletException{
+        this.config = config;
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-        print();
+    public ServletConfig getServletConfig(){
+        return this.config;
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException{
+        String filter = String.valueOf(request.getAttribute("hello"));
+        System.out.println("WelcomeServlet:" + filter);
+        response.setContentType( "text/html" );
+        PrintWriter out = response.getWriter();
+        out.println( "<html><head>" );
+        out.println( "<title>A Sample Servlet!</title>" );
+        out.println( "</head>" );
+        out.println( "<body>" );
+        out.println( "<h1>Hello, World!</h1>" );
+        out.println( "</body></html>" );
+        out.close();
     }
 
-    private void print() {
-        System.out.println(message);
+    public String getServletInfo(){
+        return "Hello World";
+    }
+
+    public void destroy(){
+
     }
 }

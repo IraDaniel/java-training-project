@@ -4,14 +4,39 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
     <display-name>Servlet Page</display-name>
-    <!--<servlet>-->
-        <!--<servlet-name>welcomeServlet</servlet-name>-->
-        <!--<servlet-class>com.company.servlet.WelcomeServlet</servlet-class>-->
-    <!--</servlet>-->
 
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>welcomeServlet</servlet-name>-->
-        <!--<url-pattern>/sayhello</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+    <servlet>
+        <servlet-name>welcomeServlet</servlet-name>
+        <servlet-class>com.company.servlet.WelcomeServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>welcomeServlet</servlet-name>
+        <url-pattern>/hello.s</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>simpleFilter</filter-name>
+        <filter-class>com.company.filter.SimpleServletFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>simpleFilter</filter-name>
+        <url-pattern>*.s</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>myFilter</filter-name>
+        <filter-class>com.company.filter.ServletFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>myFilter</filter-name>
+        <url-pattern>*.s</url-pattern>
+    </filter-mapping>
 
 </web-app>
