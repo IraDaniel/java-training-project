@@ -39,4 +39,8 @@
         <url-pattern>*.s</url-pattern>
     </filter-mapping>
 
+    <listener>
+        <listener-class>com.company.listener.ServletRequestAttributeAdapter</listener-class>
+    </listener>
+
 </web-app>
