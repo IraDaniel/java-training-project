@@ -9,7 +9,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class ThreadPool implements Executor {
 
-
     private final Queue<Runnable> workQueue = new LinkedBlockingQueue<>();
     private List<Thread> threads = new ArrayList<>();
     private volatile boolean isRunning = true;

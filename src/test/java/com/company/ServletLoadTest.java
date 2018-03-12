@@ -18,7 +18,7 @@ public class ServletLoadTest {
 
     @Test
     public void test() throws IOException {
-        ExecutorService executor = Executors.newFixedThreadPool(100);
+        ExecutorService executor = Executors.newFixedThreadPool(50);
         for (int i = 0; i < 200; i++) {
             ServletCaller caller = new ServletCaller(URL, i);
             executor.execute(caller);
