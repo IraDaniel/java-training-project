@@ -1,11 +1,10 @@
 package com.company;
 
 
+import com.company.servlet.ServletCaller;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.Test;
 
@@ -19,19 +18,14 @@ public class ServletLoadTest {
 
     @Test
     public void test() throws IOException {
-        ExecutorService executor = Executors.newFixedThreadPool(5);
-        HttpClient client = HttpClientBuilder.create().build();
-        HttpPost post = new HttpPost(URL);
+        ExecutorService executor = Executors.newFixedThreadPool(100);
+        for (int i = 0; i < 200; i++) {
+            ServletCaller caller = new ServletCaller(URL, i);
+            executor.execute(caller);
+        }
+        executor.shutdown();
+        while (!executor.isTerminated()) {
+        }
 
-        HttpResponse response = client.execute(post);
-
-//        for (int i = 0; i < 10; i++) {
-//              executor.execute()
-//        }
-//        executor.shutdown();
-//        while (!executor.isTerminated()) {
-//        }
-
-        System.out.println("Status:" + response.getStatusLine().getStatusCode());
     }
 }
