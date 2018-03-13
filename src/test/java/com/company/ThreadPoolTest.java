@@ -31,9 +31,12 @@ public class ThreadPoolTest {
             Runnable worker = new WorkerThread("" + i);
             executor.execute(worker);
         }
+        try{
+            Thread.sleep(10000);
+        }catch (InterruptedException e){
+
+        }
         executor.shutdown();
-//        while (!executor.isTerminated()) {
-//        }
         System.out.println("Finished all threads");
     }
 }
