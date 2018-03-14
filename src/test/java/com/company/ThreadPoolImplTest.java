@@ -2,12 +2,13 @@ package com.company;
 
 
 import com.company.thread_pool.ThreadPool;
+import com.company.thread_pool.ThreadPoolImpl;
 import org.junit.Test;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ThreadPoolTest {
+public class ThreadPoolImplTest {
 
     @Test
     public void testSystemThreadPool(){
@@ -25,9 +26,9 @@ public class ThreadPoolTest {
 
     @Test
     public void testThreadPool(){
-        ThreadPool executor = new ThreadPool(5);
+        ThreadPool executor = new ThreadPoolImpl(5);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             Runnable worker = new WorkerThread("" + i);
             executor.execute(worker);
         }
