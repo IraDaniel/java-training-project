@@ -8,8 +8,8 @@
     <artifactId>java-training-project</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>child</module>
-        <module>child2</module>
+        <module>part1</module>
+        <module>part3</module>
     </modules>
 
     <packaging>pom</packaging>
