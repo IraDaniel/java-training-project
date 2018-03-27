@@ -11,10 +11,10 @@ public class RunJavaConfig {
 
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
-        Messenger messenger = (Messenger) context.getBean("messenger");
+        Messenger messenger = context.getBean("messenger", Messenger.class);
         messenger.printMessage();
 
-        Book book = (Book) context.getBean("book");
+        Book book = context.getBean("book", Book.class);
         book.setName("Harry Potter");
         book.print();
 
