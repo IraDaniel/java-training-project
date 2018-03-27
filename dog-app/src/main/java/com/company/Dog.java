@@ -1,12 +1,16 @@
-package com.company.entity;
+package com.company;
 
-
+import java.util.Date;
 import java.util.UUID;
+
 
 public class Dog {
 
     private UUID id;
     private String name;
+    private Date birthDay;
+    private int weight;
+    private int high;
 
     public Dog() {
     }
@@ -32,3 +36,4 @@ public class Dog {
         this.name = name;
     }
 }
+
