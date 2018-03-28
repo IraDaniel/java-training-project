@@ -5,12 +5,14 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
-@RequestMapping("dog")
+@RequestMapping(value = "dog")
 public class DogController {
 
-    private static Map<UUID, Dog> dogs = new HashMap<UUID, Dog>();
+    private static final String DOG_DOES_NOT_EXIST = "Dog with id %s does not exist";
+    private static Map<UUID, Dog> dogs = new ConcurrentHashMap<UUID, Dog>();
 
     static {
         Calendar c = Calendar.getInstance();
@@ -20,24 +22,25 @@ public class DogController {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Collection<Dog> getAll() {
+    public Collection<Dog> get() {
         System.out.println("Call get");
         return dogs.values();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Dog get(@PathVariable UUID id) {
-        return dogs.containsKey(id) ? dogs.get(id) : null;
+        if (!dogs.containsKey(id)) {
+            throw new DogNotFoundException(String.format(DOG_DOES_NOT_EXIST, id));
+        }
+        return dogs.get(id);
     }
 
     @RequestMapping(method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public Dog create(@Valid @RequestBody Dog dog) {
-        if (dog.getId() == null) {
-            dog.setId(UUID.randomUUID());
-            dogs.put(dog.getId(), dog);
-        }
+        dog.setId(UUID.randomUUID());
+        dogs.put(dog.getId(), dog);
         return dog;
     }
 
@@ -45,14 +48,15 @@ public class DogController {
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Dog update(@Valid @RequestBody Dog dog) {
         if (!dogs.containsKey(dog.getId())) {
-            throw new DogNotFoundException(String.format("Dog with id %s does not exist", dog.getId()));
+            throw new DogNotFoundException(String.format(DOG_DOES_NOT_EXIST, dog.getId()));
         }
 
         return dogs.put(dog.getId(), dog);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable UUID id) {
+    public Dog delete(@PathVariable UUID id) {
         Dog removed = dogs.remove(id);
+        return removed;
     }
 }
