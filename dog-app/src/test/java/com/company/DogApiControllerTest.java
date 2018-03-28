@@ -9,7 +9,7 @@ import static com.jayway.restassured.RestAssured.given;
 
 public class DogApiControllerTest {
 
-    private static final String URL = "http://localhost:8080";
+    private static final String URL = "http://localhost:8080/dog-app";
 
     @Test
     public void testGet(){
