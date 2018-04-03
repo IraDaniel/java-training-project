@@ -1,4 +1,4 @@
-package com.company;
+package com.company.entity;
 
 import javax.validation.constraints.NotNull;
 import java.util.Calendar;

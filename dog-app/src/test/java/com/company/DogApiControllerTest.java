@@ -1,6 +1,7 @@
 package com.company;
 
 
+import com.company.entity.Dog;
 import com.jayway.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;

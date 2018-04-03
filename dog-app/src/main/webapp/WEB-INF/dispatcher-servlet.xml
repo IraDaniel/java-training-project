@@ -13,6 +13,6 @@
     <context:annotation-config/>
     <mvc:annotation-driven/>
 
-    <bean id="dogController" class="com.company.DogController"/>
+    <bean id="dogController" class="com.company.controller.DogController"/>
 
 </beans>
