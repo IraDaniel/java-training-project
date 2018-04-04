@@ -14,7 +14,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @RestController
 @RequestMapping(value = "dog")
 public class DogController {
+
     private static final String DOG_DOES_NOT_EXIST = "Dog with id %s does not exist";
+    private static final String DOG_ALREADY_EXISTS = "Dog with id %s already exists";
     private static Map<UUID, Dog> dogs = new ConcurrentHashMap<UUID, Dog>();
 
     static {
@@ -45,7 +47,7 @@ public class DogController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public Dog create(@Valid @RequestBody Dog dog) {
         if (dog.getId() != null && dogs.containsKey(dog.getId())) {
-            throw new DogException("Dog already exist", HttpStatus.CONFLICT);
+            throw new DogException(String.format(DOG_ALREADY_EXISTS, dog.getId()), HttpStatus.CONFLICT);
         }
         dog.setId(UUID.randomUUID());
         dogs.put(dog.getId(), dog);

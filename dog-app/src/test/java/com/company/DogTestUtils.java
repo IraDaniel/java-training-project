@@ -7,12 +7,9 @@ import org.testng.Assert;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 
 
 public class DogTestUtils {
-
-    static final UUID UUID_TO_FIND = new UUID(1L, 1L);
 
     private DogTestUtils() {
     }
