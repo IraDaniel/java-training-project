@@ -1,7 +1,8 @@
 package com.company.entity;
 
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 
@@ -9,7 +10,8 @@ public class Dog {
 
     private UUID id;
     private String name;
-//    private Calendar birthDay;
+    @Future
+    private Date birthDay;
     @NotNull
     private int weight;
     @NotNull
@@ -18,15 +20,17 @@ public class Dog {
     public Dog() {
     }
 
-    public Dog(UUID id, String name) {
+    public Dog(UUID id, String name, Date birthDay, @NotNull int weight, @NotNull int height) {
         this.id = id;
         this.name = name;
+        this.birthDay = birthDay;
+        this.weight = weight;
+        this.height = height;
     }
 
-    public Dog(UUID id, String name, Calendar birthDay, @NotNull int weight, @NotNull int height) {
-        this.id = id;
+    public Dog(String name, Date birthDay, @NotNull int weight, @NotNull int height) {
         this.name = name;
-     //   this.birthDay = birthDay;
+        this.birthDay = birthDay;
         this.weight = weight;
         this.height = height;
     }
@@ -61,6 +65,14 @@ public class Dog {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public Date getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(Date birthDay) {
+        this.birthDay = birthDay;
     }
 }
 
