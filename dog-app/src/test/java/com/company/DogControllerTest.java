@@ -1,8 +1,6 @@
 package com.company;
 
 import com.company.entity.Dog;
-import org.junit.Before;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -26,16 +24,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 public class DogControllerTest extends AbstractTestNGSpringContextTests {
 
-    @Autowired
-    private WebApplicationContext webContext;
+//    @Autowired
+//    private WebApplicationContext webContext;
 
     private MockMvc mockMvc;
 
     @BeforeMethod
     public void before() {
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(webContext)
-                .build();
+        mockMvc = MockMvcBuilders.webAppContextSetup((WebApplicationContext) applicationContext).build();
+//        mockMvc = MockMvcBuilders
+//                .webAppContextSetup(webContext)
+//                .build();
     }
 
     @Test
