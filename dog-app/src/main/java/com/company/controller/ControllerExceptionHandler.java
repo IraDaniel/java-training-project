@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@ControllerAdvice
+@ControllerAdvice("com.company")
 public class ControllerExceptionHandler {
 
     private static final Logger LOGGER = LogManager.getLogger(ControllerExceptionHandler.class);

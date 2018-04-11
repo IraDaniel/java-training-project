@@ -30,7 +30,7 @@ public class DogControllerTest extends AbstractTestNGSpringContextTests {
     private MockMvc mockMvc;
 
     @BeforeMethod
-    public void before() {
+    public void init() {
         mockMvc = MockMvcBuilders.webAppContextSetup((WebApplicationContext) applicationContext).build();
 //        mockMvc = MockMvcBuilders
 //                .webAppContextSetup(webContext)

@@ -51,7 +51,7 @@ public class DogValidationTest {
     }
 
     @Test
-    public void testWeightAndHeightShouldBeGreaterThan() {
+    public void testWeightAndHeightShouldBeGreaterThanZero() {
         Dog dog = new Dog();
         dog.setBirthDay(initDate(2017, 2, 12));
         dog.setHeight(-10);

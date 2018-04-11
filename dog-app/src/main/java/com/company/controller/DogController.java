@@ -3,6 +3,8 @@ package com.company.controller;
 import com.company.entity.Dog;
 import com.company.exception.DogException;
 import com.company.exception.DogNotFoundException;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RestController
 @RequestMapping(value = "dog")
 public class DogController {
+    private static final Logger LOGGER = LogManager.getLogger(DogController.class);
 
     private static final String DOG_DOES_NOT_EXIST = "Dog with id %s does not exist";
     private static final String DOG_ALREADY_EXISTS = "Dog with id %s already exists";
@@ -26,6 +29,7 @@ public class DogController {
         dogs.put(dog1.getId(), dog1);
         dogs.put(dog2.getId(), dog2);
         dogs.put(dog3.getId(), dog3);
+        LOGGER.info("Create dogs:" + dogs.entrySet().toString());
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -35,7 +39,7 @@ public class DogController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Dog get(@PathVariable UUID id) {
-        System.out.println("UUID:" + id);
+        LOGGER.info("Get by UUID:" + id);
         if (!dogs.containsKey(id)) {
             throw new DogNotFoundException(String.format(DOG_DOES_NOT_EXIST, id));
         }
