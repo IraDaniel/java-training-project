@@ -24,8 +24,8 @@ public class DogController {
 
     static {
         Dog dog1 = new Dog(UUID.randomUUID(), "puppy", initDate(2015, Calendar.DECEMBER, 10), 12, 12);
-        Dog dog2 = new Dog(UUID.randomUUID(), "to_remove_puppy", initDate(2015, Calendar.JANUARY, 10), 12, 12);
-        Dog dog3 = new Dog(new UUID(1L, 1L), "to_find_puppy", initDate(2015, Calendar.JANUARY, 10), 12, 12);
+        Dog dog2 = new Dog(new UUID(1L, 1L), "to_find_puppy", initDate(2013, Calendar.DECEMBER, 10), 12, 12);
+        Dog dog3 = new Dog(new UUID(2L, 2L), "to_remove_puppy", initDate(2014, Calendar.DECEMBER, 10), 12, 12);
         dogs.put(dog1.getId(), dog1);
         dogs.put(dog2.getId(), dog2);
         dogs.put(dog3.getId(), dog3);
@@ -76,7 +76,7 @@ public class DogController {
 
     private static Date initDate(int year, int month, int day){
         Calendar c = Calendar.getInstance();
-        c.set(year, month, day);
+        c.set(year, month, day, 0, 0, 0);
         return c.getTime();
     }
 }

@@ -49,7 +49,7 @@ public class DogApiControllerTest {
     @Test
     public void testGetById() {
         Dog dog = getById(new UUID(1L, 1L)).body().as(Dog.class);
-        assertDog(dog, new Dog(new UUID(1L, 1L), "to_find_puppy", initDate(2015, Calendar.JANUARY, 10), 12, 12));
+        assertDog(dog, new Dog(new UUID(1L, 1L), "to_find_puppy", initDate(2013, Calendar.DECEMBER, 10), 12, 12));
     }
 
     @Test

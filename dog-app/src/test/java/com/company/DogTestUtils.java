@@ -16,7 +16,7 @@ public class DogTestUtils {
 
     static Date initDate(int year, int month, int day) {
         Calendar c = Calendar.getInstance();
-        c.set(year, month, day);
+        c.set(year, month, day, 0, 0, 0);
         return c.getTime();
     }
 
