@@ -1,7 +1,8 @@
 package com.company.entity;
 
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.UUID;
 
@@ -9,18 +10,20 @@ import java.util.UUID;
 public class Dog {
 
     private UUID id;
+    @NotNull
     private String name;
-    @Future
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @Past
     private Date birthDay;
-    @NotNull
+    @Min(1)
     private int weight;
-    @NotNull
+    @Min(1)
     private int height;
 
     public Dog() {
     }
 
-    public Dog(UUID id, String name, Date birthDay, @NotNull int weight, @NotNull int height) {
+    public Dog(UUID id, String name, Date birthDay, int weight, int height) {
         this.id = id;
         this.name = name;
         this.birthDay = birthDay;
@@ -28,7 +31,7 @@ public class Dog {
         this.height = height;
     }
 
-    public Dog(String name, Date birthDay, @NotNull int weight, @NotNull int height) {
+    public Dog(String name, Date birthDay, int weight, int height) {
         this.name = name;
         this.birthDay = birthDay;
         this.weight = weight;

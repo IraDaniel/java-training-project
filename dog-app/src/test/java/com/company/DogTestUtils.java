@@ -7,19 +7,16 @@ import org.testng.Assert;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 
 
 public class DogTestUtils {
-
-    static final UUID UUID_TO_FIND = new UUID(1L, 1L);
 
     private DogTestUtils() {
     }
 
     static Date initDate(int year, int month, int day) {
         Calendar c = Calendar.getInstance();
-        c.set(year, month, day);
+        c.set(year, month, day, 0, 0, 0);
         return c.getTime();
     }
 
