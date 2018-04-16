@@ -64,7 +64,7 @@ public class DogControllerTest extends AbstractTestNGSpringContextTests {
     public void shouldRemove() throws Exception {
         mockMvc.perform(delete("/dog/{id}", new UUID(2, 2)))
                 .andExpect(status().isOk());
-        getById(new UUID(2, 2));
+        Assert.assertEquals(getById(new UUID(2, 2)).getResponse().getStatus(), HttpStatus.NOT_FOUND.value());
     }
 
     @Test
@@ -84,9 +84,8 @@ public class DogControllerTest extends AbstractTestNGSpringContextTests {
 
     }
 
-    private Dog getById(UUID uuid) throws Exception{
+    private MvcResult getById(UUID uuid) throws Exception{
         MvcResult mvcResult = mockMvc.perform(get("/dog/" + uuid).contentType(APPLICATION_JSON)).andReturn();
-        return HttpStatus.NOT_FOUND.value() == (mvcResult.getResponse().getStatus()) ? null :
-                new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), Dog.class);
+        return mvcResult;
     }
 }

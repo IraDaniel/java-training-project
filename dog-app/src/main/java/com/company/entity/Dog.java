@@ -9,22 +9,27 @@ import java.util.UUID;
 
 public class Dog {
 
-    private UUID id;
+    private UUID uuid;
+
+    @Size(min = 1, max = 100)
     @NotNull
     private String name;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Past
     private Date birthDay;
+
     @Min(1)
     private int weight;
+
     @Min(1)
     private int height;
 
     public Dog() {
     }
 
-    public Dog(UUID id, String name, Date birthDay, int weight, int height) {
-        this.id = id;
+    public Dog(UUID uuid, String name, Date birthDay, int weight, int height) {
+        this.uuid = uuid;
         this.name = name;
         this.birthDay = birthDay;
         this.weight = weight;
@@ -38,12 +43,12 @@ public class Dog {
         this.height = height;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getName() {

@@ -2,6 +2,7 @@ package com.company;
 
 
 import com.company.entity.Dog;
+import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -24,7 +25,7 @@ public class DogValidationTest {
     }
 
     @Test
-    public void testIncorrectBirthDay() {
+    public void birthdayShouldBeInThePast() {
         Dog dog = new Dog();
         dog.setBirthDay(initDate(2019, 2, 12));
         dog.setHeight(2);
@@ -38,11 +39,9 @@ public class DogValidationTest {
     }
 
     @Test
-    public void testNameShouldBeNotNull() {
-        Dog dog = new Dog();
-        dog.setBirthDay(initDate(2017, 2, 12));
-        dog.setHeight(2);
-        dog.setWeight(3);
+    public void nameShouldBeNotNull() {
+        Dog dog = initRandomDog();
+        dog.setName(null);
 
         Set<ConstraintViolation<Dog>> violations = validator.validate(dog);
         Assert.assertFalse(violations.isEmpty());
@@ -51,18 +50,55 @@ public class DogValidationTest {
     }
 
     @Test
-    public void testWeightAndHeightShouldBeGreaterThanZero() {
-        Dog dog = new Dog();
-        dog.setBirthDay(initDate(2017, 2, 12));
-        dog.setHeight(-10);
-        dog.setWeight(-20);
-        dog.setName("name");
-
+    public void nameShouldNotBeEmpty() {
+        Dog dog = initRandomDog();
+        dog.setName("");
 
         Set<ConstraintViolation<Dog>> violations = validator.validate(dog);
         Assert.assertFalse(violations.isEmpty());
-        Assert.assertEquals(violations.size(), 2);
-        Assert.assertEquals(violations.iterator().next().getPropertyPath().toString(), "height");
+        Assert.assertEquals(violations.size(), 1);
+        Assert.assertEquals(violations.iterator().next().getPropertyPath().toString(), "name");
+    }
+
+    @Test
+    public void nameShouldHasSizeLessThan100() {
+        Dog dog = initRandomDog();
+        dog.setName(StringUtils.repeat("a", 101));
+
+        Set<ConstraintViolation<Dog>> violations = validator.validate(dog);
+        Assert.assertFalse(violations.isEmpty());
+        Assert.assertEquals(violations.size(), 1);
+        Assert.assertEquals(violations.iterator().next().getPropertyPath().toString(), "name");
+    }
+
+    @Test
+    public void weightShouldBeGreaterThanZero() {
+        Dog dog = initRandomDog();
+        dog.setWeight(-10);
+
+        Set<ConstraintViolation<Dog>> violations = validator.validate(dog);
+        Assert.assertFalse(violations.isEmpty());
+        Assert.assertEquals(violations.size(), 1);
         Assert.assertEquals(violations.iterator().next().getPropertyPath().toString(), "weight");
+    }
+
+    @Test
+    public void heightShouldBeGreaterThanZero() {
+        Dog dog = initRandomDog();
+        dog.setHeight(-10);
+
+        Set<ConstraintViolation<Dog>> violations = validator.validate(dog);
+        Assert.assertFalse(violations.isEmpty());
+        Assert.assertEquals(violations.size(), 1);
+        Assert.assertEquals(violations.iterator().next().getPropertyPath().toString(), "height");
+    }
+
+    private static Dog initRandomDog(){
+        Dog dog = new Dog();
+        dog.setName("test_name");
+        dog.setBirthDay(initDate(2017, 2, 12));
+        dog.setHeight(1);
+        dog.setWeight(3);
+        return dog;
     }
 }
