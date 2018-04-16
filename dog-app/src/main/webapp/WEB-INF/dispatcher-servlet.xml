@@ -15,5 +15,10 @@
 
     <bean id="dogController" class="com.company.controller.DogController"/>
     <bean id="controllerExceptionHandler " class="com.company.controller.ControllerExceptionHandler"/>
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.h2.Driver" />
+        <property name="username" value="sa" />
+        <property name="url" value="jdbc:h2:~/test" />
+    </bean>
 
 </beans>

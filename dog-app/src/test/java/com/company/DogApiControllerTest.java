@@ -39,6 +39,8 @@ public class DogApiControllerTest {
         Dog created = given().body(dog).accept(ContentType.JSON).contentType(ContentType.JSON)
                 .when().post("/").body().as(Dog.class);
         assertDog(created, dog);
+        Dog actualCreated = getById(created.getUuid()).body().as(Dog.class);
+        assertDog(created, actualCreated);
     }
 
     @Test

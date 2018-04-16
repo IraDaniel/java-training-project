@@ -27,7 +27,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ContextConfiguration("classpath:test-config.xml")
+@ContextConfiguration(locations = {"classpath:test-config.xml", "classpath:h2-context.xml"})
 @WebAppConfiguration
 public class DogControllerTest extends AbstractTestNGSpringContextTests {
 

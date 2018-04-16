@@ -3,7 +3,7 @@ package com.company.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.validation.constraints.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 
@@ -17,7 +17,7 @@ public class Dog {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Past
-    private Date birthDay;
+    private LocalDate birthDay;
 
     @Min(1)
     private int weight;
@@ -28,7 +28,7 @@ public class Dog {
     public Dog() {
     }
 
-    public Dog(UUID uuid, String name, Date birthDay, int weight, int height) {
+    public Dog(UUID uuid, String name, LocalDate birthDay, int weight, int height) {
         this.uuid = uuid;
         this.name = name;
         this.birthDay = birthDay;
@@ -36,7 +36,7 @@ public class Dog {
         this.height = height;
     }
 
-    public Dog(String name, Date birthDay, int weight, int height) {
+    public Dog(String name, LocalDate birthDay, int weight, int height) {
         this.name = name;
         this.birthDay = birthDay;
         this.weight = weight;
@@ -75,11 +75,11 @@ public class Dog {
         this.height = height;
     }
 
-    public Date getBirthDay() {
+    public LocalDate getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(Date birthDay) {
+    public void setBirthDay(LocalDate birthDay) {
         this.birthDay = birthDay;
     }
 }
