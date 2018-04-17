@@ -11,6 +11,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -34,8 +35,13 @@ public class DogApiControllerTest {
     }
 
     @Test
-    public void shouldCreateDog() {
-        Dog dog = new Dog("mike", initDate(2017, Calendar.APRIL, 1), 12, 12);
+    public void shouldUpdate(){
+
+    }
+
+    @Test
+    public void shouldCreate() {
+        Dog dog = new Dog("mike", LocalDate.of(2017, Calendar.APRIL, 1), 12, 12);
         Dog created = given().body(dog).accept(ContentType.JSON).contentType(ContentType.JSON)
                 .when().post("/").body().as(Dog.class);
         assertDog(created, dog);
@@ -44,14 +50,14 @@ public class DogApiControllerTest {
     }
 
     @Test
-    public void testRemove() {
-       when().delete("/{id}", UUID.randomUUID()).thenReturn();
-    }
-
-    @Test
-    public void testGetById() {
-        Dog dog = getById(new UUID(1L, 1L)).body().as(Dog.class);
-        assertDog(dog, new Dog(new UUID(1L, 1L), "to_find_puppy", initDate(2013, Calendar.DECEMBER, 10), 12, 12));
+    public void shouldRemove() {
+        Dog dog = new Dog("mike", LocalDate.of(2017, Calendar.APRIL, 1), 12, 12);
+        Dog created = given().body(dog).accept(ContentType.JSON).contentType(ContentType.JSON)
+                .when().post("/").body().as(Dog.class);
+        assertDog(created, dog);
+        when().delete("/{id}", created.getUuid());
+        Response response = getById(created.getUuid());
+        assertResponseStatus(response, HttpStatus.SC_NOT_FOUND);
     }
 
     @Test

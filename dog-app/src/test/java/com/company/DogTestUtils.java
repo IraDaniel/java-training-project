@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.testng.Assert;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -12,12 +13,6 @@ import java.util.Date;
 public class DogTestUtils {
 
     private DogTestUtils() {
-    }
-
-    static Date initDate(int year, int month, int day) {
-        Calendar c = Calendar.getInstance();
-        c.set(year, month, day, 0, 0, 0);
-        return c.getTime();
     }
 
     static void assertDog(Dog actual, Dog expected) {
@@ -31,7 +26,6 @@ public class DogTestUtils {
 
     static String asJsonString(final Object obj) throws JsonProcessingException {
         final ObjectMapper mapper = new ObjectMapper();
-        final String jsonContent = mapper.writeValueAsString(obj);
-        return jsonContent;
+        return mapper.writeValueAsString(obj);
     }
 }

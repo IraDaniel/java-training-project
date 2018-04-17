@@ -16,13 +16,13 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
 import static com.company.DogTestUtils.asJsonString;
 import static com.company.DogTestUtils.assertDog;
-import static com.company.DogTestUtils.initDate;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -57,7 +57,7 @@ public class DogControllerTest extends AbstractTestNGSpringContextTests {
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
         Dog actual = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), Dog.class);
-        assertDog(actual, new Dog(new UUID(1L, 1L), "to_find_puppy", initDate(2013, Calendar.DECEMBER, 10), 12, 12));
+        assertDog(actual, new Dog(new UUID(1L, 1L), "to_find_puppy", LocalDate.of(2013, Calendar.DECEMBER, 10), 12, 12));
     }
 
     @Test
@@ -69,14 +69,15 @@ public class DogControllerTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void shouldCreate() throws Exception{
-        Dog dog = new Dog("mike", initDate(2017, Calendar.APRIL, 1), 12, 12);
-        mockMvc.perform(post("/dog")
-                .content(asJsonString(dog))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(jsonPath("$.name").value("mike"))
-                .andExpect(jsonPath("$.birthDay").exists());
+        Dog dog = new Dog("mike", LocalDate.of(2017, Calendar.APRIL, 1), 12, 12);
+        MvcResult mvcResult = mockMvc.perform(post("/dog").contentType(APPLICATION_JSON).content(asJsonString(dog)))
+                .andExpect(status().isOk()).andReturn();
+        Dog created = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), Dog.class);
+        assertDog(created, dog);
+        MvcResult mvcFindResult = getById(created.getUuid());
+        Assert.assertEquals(mvcFindResult.getResponse().getStatus(), HttpStatus.OK.value());
+        Dog found = new ObjectMapper().readValue(mvcFindResult.getResponse().getContentAsString(), Dog.class);
+        assertDog(created, found);
     }
 
     @Test
@@ -85,7 +86,6 @@ public class DogControllerTest extends AbstractTestNGSpringContextTests {
     }
 
     private MvcResult getById(UUID uuid) throws Exception{
-        MvcResult mvcResult = mockMvc.perform(get("/dog/" + uuid).contentType(APPLICATION_JSON)).andReturn();
-        return mvcResult;
+        return mockMvc.perform(get("/dog/" + uuid).contentType(APPLICATION_JSON)).andReturn();
     }
 }

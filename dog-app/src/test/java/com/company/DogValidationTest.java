@@ -10,9 +10,9 @@ import org.testng.annotations.Test;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import java.time.LocalDate;
 import java.util.Set;
 
-import static com.company.DogTestUtils.initDate;
 
 
 public class DogValidationTest {
@@ -26,11 +26,8 @@ public class DogValidationTest {
 
     @Test
     public void birthdayShouldBeInThePast() {
-        Dog dog = new Dog();
-        dog.setBirthDay(initDate(2019, 2, 12));
-        dog.setHeight(2);
-        dog.setWeight(3);
-        dog.setName("name");
+        Dog dog = initRandomDog();
+        dog.setBirthDay(LocalDate.of(2019, 2, 12));
 
         Set<ConstraintViolation<Dog>> violations = validator.validate(dog);
         Assert.assertFalse(violations.isEmpty());
@@ -96,7 +93,7 @@ public class DogValidationTest {
     private static Dog initRandomDog(){
         Dog dog = new Dog();
         dog.setName("test_name");
-        dog.setBirthDay(initDate(2017, 2, 12));
+        dog.setBirthDay(LocalDate.of(2017, 2, 12));
         dog.setHeight(1);
         dog.setWeight(3);
         return dog;
