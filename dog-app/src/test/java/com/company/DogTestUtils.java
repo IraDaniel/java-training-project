@@ -38,7 +38,7 @@ public class DogTestUtils {
 
     static void assertEqualCommonParams(Dog actual, Dog expected) {
         Assert.assertNotEquals(actual, null);
-        Assert.assertNotEquals(actual.getId(), null);
+        Assert.assertNotEquals(actual.getUuid(), null);
         Assert.assertEquals(actual.getBirthDay(), expected.getBirthDay());
         Assert.assertEquals(actual.getName(), expected.getName());
         Assert.assertEquals(actual.getWeight(), expected.getWeight());
