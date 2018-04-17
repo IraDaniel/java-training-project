@@ -28,28 +28,38 @@ public class DogApiControllerTest {
     }
 
     @Test
-    public void testGet() {
+    public void shouldReturnAllDogs() {
         Response response = get();
         assertResponseStatus(response, HttpStatus.SC_OK);
     }
 
     @Test
-    public void shouldCreateDog() {
+    public void shouldUpdate(){
+        Dog dog = createRandomDog();
+        dog.setName("Test name update");
+        Dog updated = given().body(dog).accept(ContentType.JSON).contentType(ContentType.JSON)
+                .when().put("/").body().as(Dog.class);
+        assertEqualsDogs(updated, dog);
+        Dog actualUpdated = getById(updated.getId()).body().as(Dog.class);
+        assertEqualsDogs(updated, actualUpdated);
+    }
+
+    @Test
+    public void shouldCreate() {
         Dog dog = new Dog("mike", initDate(2017, Calendar.APRIL, 1), 12, 12);
         Dog created = given().body(dog).accept(ContentType.JSON).contentType(ContentType.JSON)
                 .when().post("/").body().as(Dog.class);
-        assertDog(created, dog);
+        assertEqualCommonParams(created, dog);
+        Dog actualCreated = getById(created.getId()).body().as(Dog.class);
+        assertEqualCommonParams(created, actualCreated);
     }
 
     @Test
-    public void testRemove() {
-       when().delete("/{id}", UUID.randomUUID()).thenReturn();
-    }
-
-    @Test
-    public void testGetById() {
-        Dog dog = getById(new UUID(1L, 1L)).body().as(Dog.class);
-        assertDog(dog, new Dog(new UUID(1L, 1L), "to_find_puppy", initDate(2013, Calendar.DECEMBER, 10), 12, 12));
+    public void shouldRemove() {
+        Dog dog = createRandomDog();
+        when().delete("/{id}", dog.getId());
+        Response response = getById(dog.getId());
+        assertResponseStatus(response, HttpStatus.SC_NOT_FOUND);
     }
 
     @Test
@@ -57,6 +67,11 @@ public class DogApiControllerTest {
         UUID randomUuid = UUID.randomUUID();
         Response response = getById(randomUuid);
         assertResponseStatus(response, HttpStatus.SC_NOT_FOUND);
+    }
+
+    private static Dog createRandomDog(){
+        return given().body(initTestDog()).accept(ContentType.JSON).contentType(ContentType.JSON)
+                .when().post("/").body().as(Dog.class);
     }
 
     private static Response getById(UUID uuid){

@@ -11,12 +11,16 @@
     <packaging>war</packaging>
 
     <artifactId>dog-app</artifactId>
+    <properties>
+        <spring.version>5.0.4.RELEASE</spring.version>
+        <jackson.version>2.9.5</jackson.version>
+    </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>5.0.4.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <!--testing-->
@@ -48,18 +52,24 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.9.5</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.5</version>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>5.0.4.RELEASE</version>
+            <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -90,18 +100,6 @@
             <artifactId>unitils-core</artifactId>
             <version>3.4.3</version>
         </dependency>
-        <dependency>
-            <!--EL API/Impl is needed at least by Hibernate Validator for message interpolation to work (resolving
-            expressions like "error {0}"-->
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-el</artifactId>
-            <version>8.5.4</version>
-            <!--This API and the implementation is provided by the servlet container. We need it here only for tests.
-            Usually Hibernate Validator is configured with the Glassfish implementation (as it's described in the
-            official doc), but since we're going to use Tomcat as the primary App Server using it in the tests too
-            would make the tests more realistic.-->
-            <scope>provided</scope>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/log4j/log4j -->
         <dependency>
@@ -109,10 +107,6 @@
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
-
-
-
-
     </dependencies>
     <build>
         <plugins>
@@ -123,6 +117,15 @@
                     <!-- For RUN -->
                     <uriEncoding>UTF-8</uriEncoding>
                     <port>8080</port>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>

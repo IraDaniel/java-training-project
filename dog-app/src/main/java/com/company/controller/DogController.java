@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -24,12 +25,9 @@ public class DogController {
 
     static {
         Dog dog1 = new Dog(UUID.randomUUID(), "puppy", initDate(2015, Calendar.DECEMBER, 10), 12, 12);
-        Dog dog2 = new Dog(new UUID(1L, 1L), "to_find_puppy", initDate(2013, Calendar.DECEMBER, 10), 12, 12);
-        Dog dog3 = new Dog(new UUID(2L, 2L), "to_remove_puppy", initDate(2014, Calendar.DECEMBER, 10), 12, 12);
+        Dog dog2 = new Dog(UUID.randomUUID(), "to_find_puppy", initDate(2013, Calendar.DECEMBER, 10), 12, 12);
         dogs.put(dog1.getId(), dog1);
         dogs.put(dog2.getId(), dog2);
-        dogs.put(dog3.getId(), dog3);
-        LOGGER.info("Create dogs:" + dogs.entrySet().toString());
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -58,25 +56,27 @@ public class DogController {
         return dog;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT,
+    @RequestMapping(method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Dog update(@Valid @RequestBody Dog dog) {
         if (!dogs.containsKey(dog.getId())) {
             throw new DogNotFoundException(String.format(DOG_DOES_NOT_EXIST, dog.getId()));
         }
-
-        return dogs.put(dog.getId(), dog);
+        dogs.put(dog.getId(), dog);
+        return dog;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public Dog delete(@PathVariable UUID id) {
-        Dog removed = dogs.remove(id);
-        return removed;
+    public void delete(@PathVariable UUID id) {
+        dogs.remove(id);
     }
 
-    private static Date initDate(int year, int month, int day){
-        Calendar c = Calendar.getInstance();
-        c.set(year, month, day, 0, 0, 0);
-        return c.getTime();
+//    private static Date initDate(int year, int month, int day){
+//        Calendar c = Calendar.getInstance();
+//        c.set(year, month, day, 0, 0, 0);
+//        return c.getTime();
+//    }
+    static LocalDate initDate(int year, int month, int day) {
+        return LocalDate.of(year, month, day);
     }
 }
