@@ -7,7 +7,10 @@ import com.company.exception.DogNotFoundException;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 

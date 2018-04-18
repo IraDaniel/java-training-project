@@ -1,13 +1,12 @@
 package com.company.dao.impl;
 
 
+import com.company.dao.DogDao;
 import com.company.entity.Dog;
 import com.company.exception.DogException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -18,14 +17,13 @@ import java.util.UUID;
 
 import static com.company.dao.impl.DogDaoInMemoryImpl.DOG_ALREADY_EXISTS;
 
-public class DogDaoJdbcImpl {
+public class DogDaoJdbcImpl implements DogDao{
     private static final Logger LOGGER = LogManager.getLogger(DogDaoJdbcImpl.class);
 
     private DataSource dataSource;
 
-    public DogDaoJdbcImpl() {
-        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-        this.dataSource = builder.setType(EmbeddedDatabaseType.H2).addScript("classpath:sql/shema.sql").build();
+    public DogDaoJdbcImpl(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public Dog create(Dog dog) {
@@ -103,21 +101,18 @@ public class DogDaoJdbcImpl {
             }
             resultSet.close();
         } catch (SQLException e) {
-            e.printStackTrace();
         }
         return dogs;
     }
 
-    public Dog delete(UUID dogUuid) {
+    public void delete(UUID dogUuid) {
         String sql = "delete from book where uuid = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, dogUuid.toString());
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return null;
     }
 
     private Dog getFromResultSet(ResultSet resultSet) throws SQLException {

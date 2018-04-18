@@ -15,8 +15,12 @@ import java.util.UUID;
 @RequestMapping(value = "dog")
 public class DogController {
 
-    @Autowired
     private DogDao dogDao;
+
+    @Autowired
+    public DogController(DogDao dogDao) {
+        this.dogDao = dogDao;
+    }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Collection<Dog> get() {
