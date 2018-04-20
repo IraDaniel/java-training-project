@@ -12,6 +12,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.Set;
 
+import static com.company.DogTestUtils.initRandomDog;
+
 public class DogValidationTest {
 
     private static Validator validator;
@@ -85,14 +87,5 @@ public class DogValidationTest {
         Assert.assertFalse(violations.isEmpty());
         Assert.assertEquals(violations.size(), 1);
         Assert.assertEquals(violations.iterator().next().getPropertyPath().toString(), "height");
-    }
-
-    private static Dog initRandomDog(){
-        Dog dog = new Dog();
-        dog.setName("test_name");
-        dog.setBirthDay(DogTestUtils.initDate(2017, 2, 12));
-        dog.setHeight(1);
-        dog.setWeight(3);
-        return dog;
     }
 }

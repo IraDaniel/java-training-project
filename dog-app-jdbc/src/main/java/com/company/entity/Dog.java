@@ -38,13 +38,6 @@ public class Dog {
         this.height = height;
     }
 
-    public Dog(String name, LocalDate birthDay, int weight, int height) {
-        this.name = name;
-        this.birthDay = birthDay;
-        this.weight = weight;
-        this.height = height;
-    }
-
     public UUID getId() {
         return id;
     }

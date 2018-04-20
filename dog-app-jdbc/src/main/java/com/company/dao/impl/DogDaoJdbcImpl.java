@@ -4,6 +4,7 @@ package com.company.dao.impl;
 import com.company.dao.DogDao;
 import com.company.entity.Dog;
 import com.company.exception.DogException;
+import com.company.exception.DogSqlException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,6 @@ import java.util.UUID;
 import static com.company.dao.impl.DogDaoInMemoryImpl.DOG_ALREADY_EXISTS;
 
 public class DogDaoJdbcImpl implements DogDao{
-    private static final Logger LOGGER = LogManager.getLogger(DogDaoJdbcImpl.class);
 
     private DataSource dataSource;
 
@@ -30,7 +30,7 @@ public class DogDaoJdbcImpl implements DogDao{
         if (dog.getId() != null && findById(dog.getId()) != null) {
             throw new DogException(String.format(DOG_ALREADY_EXISTS, dog.getId()), HttpStatus.CONFLICT);
         }
-        String sql = "insert into book values ( ?, ?, ?, ?, ?)";
+        String sql = "insert into dog values ( ?, ?, ?, ?, ?)";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -43,6 +43,7 @@ public class DogDaoJdbcImpl implements DogDao{
             statement.executeUpdate(sql);
 
         } catch (SQLException e) {
+            throw new DogSqlException("Could not create dog", e);
         }
         return dog;
     }
@@ -51,18 +52,16 @@ public class DogDaoJdbcImpl implements DogDao{
         if (dog.getId() != null && findById(dog.getId()) != null) {
             throw new DogException(String.format(DOG_ALREADY_EXISTS, dog.getId()), HttpStatus.CONFLICT);
         }
-        String sql = "insert into book values ( ?, ?, ?, ?, ?)";
+        String sql = "update dog set name =  ?, birthday =  ?, height =  ?, weight = ? where uuid = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            dog.setId(UUID.randomUUID());
-            statement.setString(1, dog.getId().toString());
-            statement.setString(2, dog.getName());
-            statement.setDate(3, Date.valueOf(dog.getBirthDay()));
-            statement.setInt(4, dog.getHeight());
-            statement.setInt(5, dog.getWeight());
+            statement.setString(1, dog.getName());
+            statement.setDate(2, Date.valueOf(dog.getBirthDay()));
+            statement.setInt(3, dog.getHeight());
+            statement.setInt(4, dog.getWeight());
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+           throw new DogSqlException(String.format("Could not update dog with id [%s]", dog.getId()), e);
         }
         return dog;
     }
@@ -84,13 +83,13 @@ public class DogDaoJdbcImpl implements DogDao{
             resultSet.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DogSqlException(String.format("Could not find dog with id [%s]", dogUuid), e);
         }
         return dog;
     }
 
     public Collection<Dog> get() {
-        List<Dog> dogs = new ArrayList<Dog>();
+        List<Dog> dogs = new ArrayList<>();
         String sql = "SELECT uuid, name, birthday, weight, height FROM dog";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -101,17 +100,19 @@ public class DogDaoJdbcImpl implements DogDao{
             }
             resultSet.close();
         } catch (SQLException e) {
+
         }
         return dogs;
     }
 
     public void delete(UUID dogUuid) {
-        String sql = "delete from book where uuid = ?";
+        String sql = "delete from dog where uuid = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, dogUuid.toString());
             statement.executeUpdate(sql);
         } catch (SQLException e) {
+            throw new DogSqlException(String.format("Could not delete dog with id [%s]", dogUuid), e);
         }
     }
 

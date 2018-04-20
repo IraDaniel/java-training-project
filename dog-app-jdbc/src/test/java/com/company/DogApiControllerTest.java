@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 import java.util.Calendar;
 import java.util.UUID;
 
+import static com.company.DogTestUtils.initRandomDog;
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
 
@@ -45,7 +46,7 @@ public class DogApiControllerTest {
 
     @Test
     public void shouldCreate() {
-        Dog dog = new Dog("mike", DogTestUtils.initDate(2017, Calendar.APRIL, 1), 12, 12);
+        Dog dog = initRandomDog();
         Dog created = given().body(dog).accept(ContentType.JSON).contentType(ContentType.JSON)
                 .when().post("/").body().as(Dog.class);
         DogTestUtils.assertEqualCommonParams(created, dog);
@@ -69,7 +70,7 @@ public class DogApiControllerTest {
     }
 
     private static Dog createRandomDog(){
-        return given().body(DogTestUtils.initTestDog()).accept(ContentType.JSON).contentType(ContentType.JSON)
+        return given().body(initRandomDog()).accept(ContentType.JSON).contentType(ContentType.JSON)
                 .when().post("/").body().as(Dog.class);
     }
 

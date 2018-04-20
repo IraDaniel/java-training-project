@@ -55,7 +55,7 @@ public class DogControllerTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void shouldCreate() throws Exception {
-        Dog toCreateDog = DogTestUtils.initTestDog();
+        Dog toCreateDog = DogTestUtils.initRandomDog();
 
         MockHttpServletResponse mvcResponse = create(toCreateDog);
         assertResponseStatus(mvcResponse, HttpStatus.OK);
@@ -71,7 +71,7 @@ public class DogControllerTest extends AbstractTestNGSpringContextTests {
     @Test
     public void shouldThrowExceptionWhenTryToCreateDogWithAlreadyExistUuid() throws Exception {
         Dog alreadyCreated = createRandomDog();
-        Dog toCreateDog = DogTestUtils.initTestDog();
+        Dog toCreateDog = DogTestUtils.initRandomDog();
         toCreateDog.setId(alreadyCreated.getId());
 
         MockHttpServletResponse mvcResponse = create(toCreateDog);
@@ -114,7 +114,7 @@ public class DogControllerTest extends AbstractTestNGSpringContextTests {
     }
 
     private Dog createRandomDog() throws Exception {
-        Dog toCreateDog = DogTestUtils.initTestDog();
+        Dog toCreateDog = DogTestUtils.initRandomDog();
         MockHttpServletResponse mvcResponse = create(toCreateDog);
         assertResponseStatus(mvcResponse, HttpStatus.OK);
         return convert(mvcResponse.getContentAsString());
