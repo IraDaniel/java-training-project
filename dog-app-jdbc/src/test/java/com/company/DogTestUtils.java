@@ -18,7 +18,7 @@ public class DogTestUtils {
 
     static Dog initRandomDog() {
         Dog dog = new Dog();
-        dog.setName(RandomStringUtils.random(4));
+        dog.setName(RandomStringUtils.randomAlphabetic(4));
         dog.setBirthDay(initDate(2017, 2, 12));
         dog.setHeight(RandomUtils.nextInt(1, 20));
         dog.setWeight(RandomUtils.nextInt(1, 20));
@@ -30,8 +30,6 @@ public class DogTestUtils {
     }
 
     static void assertEqualCommonParams(Dog actual, Dog expected) {
-        Assert.assertNotEquals(actual, null);
-        Assert.assertNotEquals(actual.getId(), null);
         Assert.assertEquals(actual.getBirthDay(), expected.getBirthDay());
         Assert.assertEquals(actual.getName(), expected.getName());
         Assert.assertEquals(actual.getWeight(), expected.getWeight());

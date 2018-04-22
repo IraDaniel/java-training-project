@@ -8,6 +8,7 @@ import com.jayway.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -49,9 +50,13 @@ public class DogApiControllerTest {
         Dog dog = initRandomDog();
         Dog created = given().body(dog).accept(ContentType.JSON).contentType(ContentType.JSON)
                 .when().post("/").body().as(Dog.class);
+        Assert.assertNotEquals(created, null);
+        Assert.assertNotEquals(created.getId(), null);
         DogTestUtils.assertEqualCommonParams(created, dog);
         Dog actualCreated = getById(created.getId()).body().as(Dog.class);
-        DogTestUtils.assertEqualCommonParams(created, actualCreated);
+        Assert.assertNotEquals(actualCreated, null);
+        Assert.assertNotEquals(actualCreated.getId(), null);
+        DogTestUtils.assertEqualsDogs(created, actualCreated);
     }
 
     @Test

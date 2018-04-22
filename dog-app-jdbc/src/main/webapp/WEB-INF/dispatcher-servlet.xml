@@ -31,7 +31,7 @@
     </bean>
     <bean id="controllerExceptionHandler " class="com.company.controller.ControllerExceptionHandler"/>
     <jdbc:initialize-database data-source="dataSource" ignore-failures="DROPS">
-        <jdbc:script location="classpath:sql/shema.sql"/>
+        <jdbc:script location="classpath:sql/schema.sql"/>
     </jdbc:initialize-database>
     <!--<bean id="dogDao" class="com.company.dao.impl.DogDaoInMemoryImpl"/>-->
 

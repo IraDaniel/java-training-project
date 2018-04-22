@@ -5,8 +5,6 @@ import com.company.dao.DogDao;
 import com.company.entity.Dog;
 import com.company.exception.DogException;
 import com.company.exception.DogSqlException;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 
 import javax.sql.DataSource;
@@ -18,7 +16,7 @@ import java.util.UUID;
 
 import static com.company.dao.impl.DogDaoInMemoryImpl.DOG_ALREADY_EXISTS;
 
-public class DogDaoJdbcImpl implements DogDao{
+public class DogDaoJdbcImpl implements DogDao {
 
     private DataSource dataSource;
 
@@ -26,22 +24,33 @@ public class DogDaoJdbcImpl implements DogDao{
         this.dataSource = dataSource;
     }
 
+    public List<Dog> findAll() {
+        List<Dog> dogs = new ArrayList<>();
+        String sql = "SELECT id, name, birth_date, weight, height FROM dog";
+        try {
+            Connection connection = dataSource.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                Dog dog = getFromResultSet(resultSet);
+                dogs.add(dog);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return dogs;
+    }
+
     public Dog create(Dog dog) {
         if (dog.getId() != null && findById(dog.getId()) != null) {
             throw new DogException(String.format(DOG_ALREADY_EXISTS, dog.getId()), HttpStatus.CONFLICT);
         }
-        String sql = "insert into dog values ( ?, ?, ?, ?, ?)";
-
+        dog.setId(UUID.randomUUID());
+        String sql = "insert into dog values ( " + dog.getId() + ", %s, %s, %d, %d)";
+        sql = String.format(sql, dog.getName(), Date.valueOf(dog.getBirthDay()), dog.getHeight(), dog.getWeight());
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            dog.setId(UUID.randomUUID());
-            statement.setString(1, dog.getId().toString());
-            statement.setString(2, dog.getName());
-            statement.setDate(3, Date.valueOf(dog.getBirthDay()));
-            statement.setInt(4, dog.getHeight());
-            statement.setInt(5, dog.getWeight());
+             Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
-
         } catch (SQLException e) {
             throw new DogSqlException("Could not create dog", e);
         }
@@ -52,16 +61,13 @@ public class DogDaoJdbcImpl implements DogDao{
         if (dog.getId() != null && findById(dog.getId()) != null) {
             throw new DogException(String.format(DOG_ALREADY_EXISTS, dog.getId()), HttpStatus.CONFLICT);
         }
-        String sql = "update dog set name =  ?, birthday =  ?, height =  ?, weight = ? where uuid = ?";
+        String sql = "update dog set name =  %s, birth_date =  %s, height =  %d, weight = %d where id = %s";
+        sql = String.format(sql, dog.getName(), Date.valueOf(dog.getBirthDay()), dog.getHeight(), dog.getWeight(), dog.getId());
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, dog.getName());
-            statement.setDate(2, Date.valueOf(dog.getBirthDay()));
-            statement.setInt(3, dog.getHeight());
-            statement.setInt(4, dog.getWeight());
+             Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-           throw new DogSqlException(String.format("Could not update dog with id [%s]", dog.getId()), e);
+            throw new DogSqlException(String.format("Could not update dog with id [%s]", dog.getId()), e);
         }
         return dog;
     }
@@ -72,11 +78,10 @@ public class DogDaoJdbcImpl implements DogDao{
 
     public Dog findById(UUID dogUuid) {
         Dog dog = new Dog();
-        String sql = "SELECT uuid, name, birthday, weight, height FROM dog where uuid = ?";
+        String sql = "SELECT id, name, birth_date, weight, height FROM dog where id = " + dogUuid;
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, dogUuid.toString());
-            ResultSet resultSet = statement.executeQuery();
+             Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(sql);
             if (resultSet.first()) {
                 dog = getFromResultSet(resultSet);
             }
@@ -89,27 +94,13 @@ public class DogDaoJdbcImpl implements DogDao{
     }
 
     public Collection<Dog> get() {
-        List<Dog> dogs = new ArrayList<>();
-        String sql = "SELECT uuid, name, birthday, weight, height FROM dog";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            ResultSet resultSet = statement.executeQuery(sql);
-            while (resultSet.next()) {
-                Dog dog = getFromResultSet(resultSet);
-                dogs.add(dog);
-            }
-            resultSet.close();
-        } catch (SQLException e) {
-
-        }
-        return dogs;
+        return findAll();
     }
 
     public void delete(UUID dogUuid) {
-        String sql = "delete from dog where uuid = ?";
+        String sql = "delete from dog where id = " + dogUuid;
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, dogUuid.toString());
+             Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
             throw new DogSqlException(String.format("Could not delete dog with id [%s]", dogUuid), e);
@@ -118,10 +109,10 @@ public class DogDaoJdbcImpl implements DogDao{
 
     private Dog getFromResultSet(ResultSet resultSet) throws SQLException {
         Dog dog = new Dog();
-        dog.setId(UUID.fromString(resultSet.getString("uuid")));
+        dog.setId(UUID.fromString(resultSet.getString("id")));
         dog.setName(resultSet.getString("name"));
-        dog.setBirthDay(resultSet.getDate("birthday").toLocalDate());
-        dog.setHeight(resultSet.getInt("weight"));
+        dog.setBirthDay(resultSet.getDate("birth_date").toLocalDate());
+        dog.setWeight(resultSet.getInt("weight"));
         dog.setHeight(resultSet.getInt("height"));
         return dog;
     }

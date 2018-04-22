@@ -11,6 +11,7 @@
         <module>part1</module>
         <module>part3</module>
         <module>dog-app</module>
+        <module>dog-app-jdbc</module>
     </modules>
 
     <packaging>pom</packaging>
