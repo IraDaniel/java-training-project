@@ -1,13 +1,12 @@
-package com.company;
+package com.company.dao;
 
-import com.company.dao.DogDao;
+import com.company.DogTestUtils;
 import com.company.entity.Dog;
 import com.company.exception.DogNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -16,10 +15,8 @@ import java.util.Collection;
 import static com.company.DogTestUtils.assertEqualCommonParams;
 import static com.company.DogTestUtils.assertEqualsDogs;
 
-@ContextConfiguration("classpath:test-config.xml")
-@Sql(scripts = {"classpath:sql/drop.sql, classpath:sql/schema.sql", "classpath:sql/insert-data.sql"})
-//@ActiveProfiles("h2")
-@WebAppConfiguration
+@ContextConfiguration("classpath:dispatcher-servlet.xml")
+@ActiveProfiles("prepared")
 public class DogDaoJdbcTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
@@ -67,7 +64,7 @@ public class DogDaoJdbcTest extends AbstractTestNGSpringContextTests {
         dog.setName(sqlInjectionName);
         Dog update = dogDao.update(dog);
         Dog actualUpdated = dogDao.get(update.getId());
-        Assert.assertEquals(actualUpdated.getName(), "SQL Injection',-");
+        Assert.assertEquals(actualUpdated.getName(), sqlInjectionName);
         assertEqualsDogs(actualUpdated, update);
     }
 

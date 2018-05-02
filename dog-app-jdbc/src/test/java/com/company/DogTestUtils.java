@@ -16,7 +16,7 @@ public class DogTestUtils {
     }
 
 
-    static Dog initRandomDog() {
+    public static Dog initRandomDog() {
         Dog dog = new Dog();
         dog.setName(RandomStringUtils.randomAlphabetic(4));
         dog.setBirthDay(initDate(2017, 2, 12));
@@ -25,18 +25,18 @@ public class DogTestUtils {
         return dog;
     }
 
-    static LocalDate initDate(int year, int month, int day) {
+    public static LocalDate initDate(int year, int month, int day) {
         return LocalDate.of(year, month, day);
     }
 
-    static void assertEqualCommonParams(Dog actual, Dog expected) {
+    public static void assertEqualCommonParams(Dog actual, Dog expected) {
         Assert.assertEquals(actual.getBirthDay(), expected.getBirthDay());
         Assert.assertEquals(actual.getName(), expected.getName());
         Assert.assertEquals(actual.getWeight(), expected.getWeight());
         Assert.assertEquals(actual.getHeight(), expected.getHeight());
     }
 
-    static void assertEqualsDogs(Dog actual, Dog expected) {
+    public static void assertEqualsDogs(Dog actual, Dog expected) {
         Assert.assertNotEquals(actual, null);
         Assert.assertEquals(actual.getId(), expected.getId());
         Assert.assertEquals(actual.getBirthDay(), expected.getBirthDay());
@@ -45,7 +45,7 @@ public class DogTestUtils {
         Assert.assertEquals(actual.getHeight(), expected.getHeight());
     }
 
-    static String asJsonString(final Object obj) throws JsonProcessingException {
+    public  static String asJsonString(final Object obj) throws JsonProcessingException {
         final ObjectMapper mapper = new ObjectMapper();
         final String jsonContent = mapper.writeValueAsString(obj);
         return jsonContent;

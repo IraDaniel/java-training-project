@@ -1,10 +1,12 @@
-package com.company;
+package com.company.controller;
 
+import com.company.DogTestUtils;
 import com.company.entity.Dog;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -23,8 +25,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ContextConfiguration("classpath:test-config.xml")
+@ContextConfiguration("classpath:dispatcher-servlet.xml")
 @WebAppConfiguration
+@ActiveProfiles("default")
 public class DogControllerTest extends AbstractTestNGSpringContextTests {
 
     @Autowired

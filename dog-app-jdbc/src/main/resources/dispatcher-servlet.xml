@@ -16,23 +16,11 @@
     <context:annotation-config/>
     <mvc:annotation-driven/>
 
-
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.h2.Driver" />
-        <property name="username" value="sa" />
-        <property name="url" value="jdbc:h2:~/test" />
-    </bean>
-    <bean id="dogDao" class="com.company.dao.impl.DogDaoJdbcImpl">
-        <constructor-arg ref="dataSource"/>
-    </bean>
+    <import resource="persistence-context.xml"/>
 
     <bean id="dogController" class="com.company.controller.DogController">
         <constructor-arg ref="dogDao"/>
     </bean>
     <bean id="controllerExceptionHandler " class="com.company.controller.ControllerExceptionHandler"/>
-    <jdbc:initialize-database data-source="dataSource" ignore-failures="DROPS">
-        <jdbc:script location="classpath:sql/schema.sql"/>
-    </jdbc:initialize-database>
-    <!--<bean id="dogDao" class="com.company.dao.impl.DogDaoInMemoryImpl"/>-->
 
 </beans>

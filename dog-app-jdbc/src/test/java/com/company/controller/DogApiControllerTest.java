@@ -1,18 +1,19 @@
-package com.company;
+package com.company.controller;
 
 
+import com.company.DogTestUtils;
 import com.company.entity.Dog;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.Calendar;
 import java.util.UUID;
 
 import static com.company.DogTestUtils.initRandomDog;
@@ -20,6 +21,7 @@ import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
 
 @ImportResource({"classpath:dispatcher-servlet.xml"})
+@ActiveProfiles("default")
 @WebAppConfiguration
 public class DogApiControllerTest {
 

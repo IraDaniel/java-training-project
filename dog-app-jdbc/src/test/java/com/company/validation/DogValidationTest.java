@@ -1,6 +1,7 @@
-package com.company;
+package com.company.validation;
 
 
+import com.company.DogTestUtils;
 import com.company.entity.Dog;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;

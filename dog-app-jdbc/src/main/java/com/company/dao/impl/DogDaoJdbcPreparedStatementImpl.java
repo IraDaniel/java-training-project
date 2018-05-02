@@ -17,8 +17,10 @@ import java.util.UUID;
 
 import static com.company.dao.impl.DogDaoInMemoryImpl.DOG_ALREADY_EXISTS;
 import static com.company.dao.impl.DogDaoInMemoryImpl.DOG_DOES_NOT_EXIST;
+import static com.company.utility.JdbcDogDaoUtils.getFromResultSet;
 
 public class DogDaoJdbcPreparedStatementImpl implements DogDao {
+
     private DataSource dataSource;
 
     public DogDaoJdbcPreparedStatementImpl(DataSource dataSource) {
@@ -29,7 +31,7 @@ public class DogDaoJdbcPreparedStatementImpl implements DogDao {
         if (dog.getId() != null && findById(dog.getId()) != null) {
             throw new DogException(String.format(DOG_ALREADY_EXISTS, dog.getId()), HttpStatus.CONFLICT);
         }
-        String sql = "insert into dog values ( ?, ?, ?, ?, ?)";
+        String sql = "insert into dog (id, name, birth_date, height, weight) values ( ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             dog.setId(UUID.randomUUID());
@@ -112,19 +114,8 @@ public class DogDaoJdbcPreparedStatementImpl implements DogDao {
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setObject(1, dogUuid);
             int modifyColumnCount = statement.executeUpdate();
-            System.out.println(modifyColumnCount);
         } catch (SQLException e) {
             throw new DogSqlException(String.format("Could not delete dog with id [%s]", dogUuid), e);
         }
-    }
-
-    private Dog getFromResultSet(ResultSet resultSet) throws SQLException {
-        Dog dog = new Dog();
-        dog.setId(UUID.fromString(resultSet.getString("id")));
-        dog.setName(resultSet.getString("name"));
-        dog.setBirthDay(resultSet.getDate("birth_date").toLocalDate());
-        dog.setHeight(resultSet.getInt("height"));
-        dog.setWeight(resultSet.getInt("weight"));
-        return dog;
     }
 }
