@@ -9,6 +9,8 @@ import java.util.UUID;
 
 public class JdbcDogDaoUtils {
 
+    public static final String DOG_ALREADY_EXISTS = "Dog with id %s already exists";
+    public static final String DOG_DOES_NOT_EXIST = "Dog with id %s does not exist";
     private JdbcDogDaoUtils() {
     }
 

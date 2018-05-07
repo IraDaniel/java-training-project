@@ -1,8 +1,9 @@
 package com.company.controller;
 
 
-import com.company.dao.DogDao;
 import com.company.entity.Dog;
+import com.company.service.DogService;
+import com.company.service.impl.TransactionalDogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -15,38 +16,38 @@ import java.util.UUID;
 @RequestMapping(value = "dog")
 public class DogController {
 
-    private DogDao dogDao;
+    private TransactionalDogService dogService;
 
     @Autowired
-    public DogController(DogDao dogDao) {
-        this.dogDao = dogDao;
+    public DogController(TransactionalDogService dogService) {
+        this.dogService = dogService;
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Collection<Dog> get() {
-        return dogDao.get();
+        return dogService.getAll();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Dog get(@PathVariable UUID id) {
-        return dogDao.get(id);
+        return dogService.get(id);
     }
 
     @RequestMapping(method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Dog create(@Valid @RequestBody Dog dog) {
-        return dogDao.create(dog);
+        return dogService.create(dog);
     }
 
     @RequestMapping(method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Dog update(@Valid @RequestBody Dog dog) {
-        return dogDao.update(dog);
+        return dogService.update(dog);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable UUID id) {
-        dogDao.delete(id);
+        dogService.delete(id);
     }
 }
 

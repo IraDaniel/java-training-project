@@ -5,10 +5,9 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="username" value="root"/>
-        <property name="password" value="root"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/dogdb"/>
+        <property name="driverClassName" value="org.h2.Driver"/>
+        <property name="username" value="sa"/>
+        <property name="url" value="jdbc:h2:~/test"/>
     </bean>
 
     <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
@@ -16,22 +15,22 @@
         <property name="baselineOnMigrate" value="true"/>
         <property name="locations">
             <list>
-                <value>sql/mysql</value>
+                <value>sql/h2</value>
             </list>
         </property>
     </bean>
 
-    <beans profile="prepared">
-        <bean id="dogDao" class="com.company.dao.impl.DogDaoJdbcPreparedStatementImpl">
-            <constructor-arg ref="dataSource"/>
-        </bean>
-    </beans>
-    <beans profile="h2">
-        <bean id="dogDao" class="com.company.dao.impl.DogDaoJdbcImpl">
-            <constructor-arg ref="dataSource"/>
-        </bean>
-    </beans>
+    <bean id="connectionHolder" class="com.company.dao.JdbcConnectionHolder">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
     <beans profile="default">
+        <bean id="dogDao" class="com.company.dao.impl.JdbcDogDao">
+            <constructor-arg ref="connectionHolder"/>
+        </bean>
+    </beans>
+
+    <beans profile="in-memory">
         <bean id="dogDao" class="com.company.dao.impl.DogDaoInMemoryImpl"/>
     </beans>
 

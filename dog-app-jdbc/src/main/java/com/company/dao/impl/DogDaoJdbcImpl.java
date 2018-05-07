@@ -15,8 +15,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-import static com.company.dao.impl.DogDaoInMemoryImpl.DOG_ALREADY_EXISTS;
-import static com.company.dao.impl.DogDaoInMemoryImpl.DOG_DOES_NOT_EXIST;
+import static com.company.utility.JdbcDogDaoUtils.DOG_ALREADY_EXISTS;
+import static com.company.utility.JdbcDogDaoUtils.DOG_DOES_NOT_EXIST;
 import static com.company.utility.JdbcDogDaoUtils.getFromResultSet;
 
 public class DogDaoJdbcImpl implements DogDao {

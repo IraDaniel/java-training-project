@@ -13,11 +13,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.company.utility.JdbcDogDaoUtils.DOG_ALREADY_EXISTS;
+import static com.company.utility.JdbcDogDaoUtils.DOG_DOES_NOT_EXIST;
+
 
 public class DogDaoInMemoryImpl implements DogDao {
-
-    static final String DOG_ALREADY_EXISTS = "Dog with id %s already exists";
-    static final String DOG_DOES_NOT_EXIST = "Dog with id %s does not exist";
 
     private static Map<UUID, Dog> dogs = new ConcurrentHashMap<>();
 
