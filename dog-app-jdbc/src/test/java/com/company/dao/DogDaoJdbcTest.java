@@ -10,7 +10,10 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 import static com.company.DogTestUtils.assertEqualCommonParams;
 import static com.company.DogTestUtils.assertEqualsDogs;
@@ -66,6 +69,23 @@ public class DogDaoJdbcTest extends AbstractTestNGSpringContextTests {
         Dog actualUpdated = dogDao.get(update.getId());
         Assert.assertEquals(actualUpdated.getName(), sqlInjectionName);
         assertEqualsDogs(actualUpdated, update);
+    }
+
+    @Test
+    public void testToCheckPreparedStatementCache(){
+        int numOfCreatedDogs = 5;
+        List<UUID> created = new ArrayList<>(numOfCreatedDogs);
+        for(int i = 0; i < numOfCreatedDogs; i++){
+            created.add(createRandomDog().getId());
+        }
+        for(int i = 0; i < 100; i++){
+            dogDao.get(created.get(0));
+        }
+        for(UUID uuid: created){
+            Dog dog = dogDao.get(uuid);
+            System.out.println(dog.getName());
+        }
+
     }
 
     private Dog createRandomDog(){

@@ -13,7 +13,7 @@
     <context:annotation-config/>
     <mvc:annotation-driven/>
 
-    <import resource="app-context-mysql.xml"/>
+    <import resource="app-context.xml"/>
 
     <bean id="dogService" class="com.company.service.impl.TransactionalDogService">
         <constructor-arg ref="dogDao"/>
