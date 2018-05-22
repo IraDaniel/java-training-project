@@ -24,14 +24,9 @@
         <constructor-arg ref="dataSource"/>
     </bean>
 
-    <beans profile="default">
-        <bean id="dogDao" class="com.company.dao.impl.JdbcDogDao">
-            <constructor-arg ref="connectionHolder"/>
-        </bean>
-    </beans>
+    <bean id="dogDao" class="com.company.dao.impl.JdbcDogDao">
+        <constructor-arg ref="connectionHolder"/>
+    </bean>
 
-    <beans profile="in-memory">
-        <bean id="dogDao" class="com.company.dao.impl.DogDaoInMemoryImpl"/>
-    </beans>
 
 </beans>

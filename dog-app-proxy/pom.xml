@@ -140,6 +140,14 @@
             <version>5.0.7</version>
             <scope>compile</scope>
         </dependency>
+
+        <!-- Byte manipulation -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>3.2.6</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>

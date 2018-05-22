@@ -2,6 +2,7 @@ package com.company.controller;
 
 
 import com.company.entity.Dog;
+import com.company.service.DogService;
 import com.company.service.impl.TransactionalDogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,10 +16,10 @@ import java.util.UUID;
 @RequestMapping(value = "dog")
 public class DogController {
 
-    private TransactionalDogService dogService;
+    private DogService dogService;
 
     @Autowired
-    public DogController(TransactionalDogService dogService) {
+    public DogController(DogService dogService) {
         this.dogService = dogService;
     }
 

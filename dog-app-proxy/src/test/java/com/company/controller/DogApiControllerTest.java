@@ -20,9 +20,7 @@ import static com.company.DogTestUtils.initRandomDog;
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
 
-@ImportResource(locations = {"classpath:dispatcher-servlet.xml", "classpath:app-context.xml"})
-@ActiveProfiles("default")
-@WebAppConfiguration
+//@ImportResource(locations = {"classpath:dispatcher-servlet.xml", "classpath:app-context.xml"})
 public class DogApiControllerTest {
 
     @BeforeMethod

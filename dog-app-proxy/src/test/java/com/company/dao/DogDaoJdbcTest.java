@@ -19,7 +19,6 @@ import static com.company.DogTestUtils.assertEqualCommonParams;
 import static com.company.DogTestUtils.assertEqualsDogs;
 
 @ContextConfiguration("classpath:dispatcher-servlet.xml")
-@ActiveProfiles("prepared")
 public class DogDaoJdbcTest extends AbstractTestNGSpringContextTests {
 
     @Autowired

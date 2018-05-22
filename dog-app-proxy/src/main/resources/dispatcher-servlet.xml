@@ -17,7 +17,16 @@
         <constructor-arg ref="dogDao"/>
     </bean>
 
-    <bean id="dogService" class="com.company.service.impl.TransactionalDogService">
+    <!--<bean id="dogService" class="com.company.service.impl.TransactionalDogService">-->
+        <!--<constructor-arg>-->
+            <!--<bean class="com.company.service.impl.DogServiceImpl">-->
+                <!--<constructor-arg ref="dogDao"/>-->
+            <!--</bean>-->
+        <!--</constructor-arg>-->
+        <!--<constructor-arg ref="connectionHolder"/>-->
+    <!--</bean>-->
+
+    <bean id="dogService" class="com.company.service.impl.TransactionalDynamicProxy" factory-method="newInstance">
         <constructor-arg>
             <bean class="com.company.service.impl.DogServiceImpl">
                 <constructor-arg ref="dogDao"/>
