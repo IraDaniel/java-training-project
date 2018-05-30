@@ -4,6 +4,7 @@ import com.company.aspect.TransactionalMarker;
 import com.company.dao.DogDao;
 import com.company.entity.Dog;
 import com.company.service.DogService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -15,7 +16,7 @@ public class DogServiceImpl implements DogService {
     public DogServiceImpl(DogDao dogDao) {
         this.dogDao = dogDao;
     }
-    @TransactionalMarker
+    @Transactional
     public Dog create(Dog dog) {
         return dogDao.create(dog);
     }
