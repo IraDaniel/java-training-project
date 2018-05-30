@@ -18,11 +18,9 @@ public class DogService {
     public Dog create(Dog dog) {
         return dogDao.create(dog);
     }
-
     public Dog update(Dog dog) {
         return dogDao.update(dog);
     }
-
     public Dog get(UUID dogUuid) {
         return dogDao.get(dogUuid);
     }
@@ -30,7 +28,6 @@ public class DogService {
     public Collection<Dog> getAll() {
         return dogDao.get();
     }
-
     public void delete(UUID dogUuid) {
         dogDao.delete(dogUuid);
     }

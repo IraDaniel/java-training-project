@@ -13,15 +13,18 @@
     <context:annotation-config/>
     <mvc:annotation-driven/>
 
-    <import resource="app-context-mysql.xml"/>
+    <bean id="transactionalAspect" class="com.company.aspect.TransactionalAspect">
+        <constructor-arg ref="transactionManager"/>
+    </bean>
 
-    <bean id="dogService" class="com.company.service.impl.TransactionalDogService">
+    <bean id="dogService" class="com.company.service.impl.DogServiceImpl">
         <constructor-arg ref="dogDao"/>
-        <constructor-arg ref="connectionHolder"/>
     </bean>
 
     <bean id="dogController" class="com.company.controller.DogController">
         <constructor-arg ref="dogService"/>
     </bean>
     <bean id="controllerExceptionHandler " class="com.company.controller.ControllerExceptionHandler"/>
+
+
 </beans>

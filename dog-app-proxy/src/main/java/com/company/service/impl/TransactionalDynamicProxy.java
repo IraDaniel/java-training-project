@@ -35,7 +35,7 @@ public class TransactionalDynamicProxy implements InvocationHandler {
     }
 
     @SuppressWarnings("unchecked")
-    public static DogService newInstance(DogService invocationTarget, JdbcConnectionHolder connectionHolder) {
+    public static DogService newProxyInstance(DogService invocationTarget, JdbcConnectionHolder connectionHolder) {
         return (DogService) Proxy.newProxyInstance(invocationTarget.getClass().getClassLoader(), invocationTarget.getClass().getInterfaces(),
                 new TransactionalDynamicProxy(invocationTarget, connectionHolder));
     }

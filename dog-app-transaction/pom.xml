@@ -9,8 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dog-app-proxy</artifactId>
-
+    <artifactId>dog-app-transaction</artifactId>
     <properties>
         <spring.version>5.0.4.RELEASE</spring.version>
         <jackson.version>2.9.5</jackson.version>
@@ -185,4 +184,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

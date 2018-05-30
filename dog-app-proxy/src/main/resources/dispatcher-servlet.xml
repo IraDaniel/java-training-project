@@ -13,30 +13,36 @@
     <context:annotation-config/>
     <mvc:annotation-driven/>
 
-    <bean id="dogServiceImpl" class="com.company.service.impl.DogServiceImpl">
-        <constructor-arg ref="dogDao"/>
-    </bean>
-
     <!--<bean id="dogService" class="com.company.service.impl.TransactionalDogService">-->
-        <!--<constructor-arg>-->
-            <!--<bean class="com.company.service.impl.DogServiceImpl">-->
-                <!--<constructor-arg ref="dogDao"/>-->
-            <!--</bean>-->
-        <!--</constructor-arg>-->
-        <!--<constructor-arg ref="connectionHolder"/>-->
+    <!--<constructor-arg>-->
+    <!--<bean class="com.company.service.impl.DogServiceImpl">-->
+    <!--<constructor-arg ref="dogDao"/>-->
+    <!--</bean>-->
+    <!--</constructor-arg>-->
+    <!--<constructor-arg ref="connectionHolder"/>-->
     <!--</bean>-->
 
-    <bean id="dogService" class="com.company.service.impl.TransactionalDynamicProxy" factory-method="newInstance">
-        <constructor-arg>
-            <bean class="com.company.service.impl.DogServiceImpl">
-                <constructor-arg ref="dogDao"/>
-            </bean>
-        </constructor-arg>
+    <!--<bean id="dogService" class="com.company.service.impl.TransactionalDynamicProxy" factory-method="newProxyInstance">-->
+    <!--<constructor-arg>-->
+    <!--<bean class="com.company.service.impl.DogServiceImpl">-->
+    <!--<constructor-arg ref="dogDao"/>-->
+    <!--</bean>-->
+    <!--</constructor-arg>-->
+    <!--<constructor-arg ref="connectionHolder"/>-->
+    <!--</bean>-->
+
+    <bean id="transactionalAspect" class="com.company.aspect.TransactionalAspect">
         <constructor-arg ref="connectionHolder"/>
+    </bean>
+
+    <bean id="dogService" class="com.company.service.impl.DogServiceImpl">
+        <constructor-arg ref="dogDao"/>
     </bean>
 
     <bean id="dogController" class="com.company.controller.DogController">
         <constructor-arg ref="dogService"/>
     </bean>
     <bean id="controllerExceptionHandler " class="com.company.controller.ControllerExceptionHandler"/>
+
+
 </beans>

@@ -33,7 +33,7 @@ public class CglibTransactionalDogService implements InvocationHandler {
     }
 
     @SuppressWarnings("unchecked")
-    public static DogService create(DogService invocationTarget, JdbcConnectionHolder connectionHolder) {
+    public static DogService newProxyInstance(DogService invocationTarget, JdbcConnectionHolder connectionHolder) {
         CglibTransactionalDogService call = new CglibTransactionalDogService(invocationTarget, connectionHolder);
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(DogService.class);

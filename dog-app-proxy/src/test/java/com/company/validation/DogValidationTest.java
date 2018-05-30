@@ -89,4 +89,10 @@ public class DogValidationTest {
         Assert.assertEquals(violations.size(), 1);
         Assert.assertEquals(violations.iterator().next().getPropertyPath().toString(), "height");
     }
+
+    @Test
+    public void test(){
+        String test = "bla bla";
+        System.out.println(test.contains("3"));
+    }
 }
