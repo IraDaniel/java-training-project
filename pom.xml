@@ -13,6 +13,9 @@
         <module>dog-app</module>
         <module>dog-app-jdbc</module>
         <module>dog-app-transaction</module>
+        <module>argsjCommander</module>
+        <module>dogappaspect</module>
+        <module>dog-app-db-pools</module>
     </modules>
 
     <packaging>pom</packaging>
