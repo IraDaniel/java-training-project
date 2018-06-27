@@ -1,0 +1,30 @@
+<Context>
+
+    <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">-->
+    <!--<property name="driverClass" value="org.h2.Driver"/>-->
+    <!--<property name="jdbcUrl" value="jdbc:h2:mem:dogdb;DB_CLOSE_DELAY=-1;"/>-->
+    <!--<property name="user" value="sa"/>-->
+    <!--&lt;!&ndash;The size of c3p0's global PreparedStatement cache., default = 0&ndash;&gt;-->
+    <!--<property name="maxStatements" value="1500"/>-->
+    <!--&lt;!&ndash;The number of PreparedStatements c3p0 will cache for a single pooled Connection. (max)&ndash;&gt;-->
+    <!--&lt;!&ndash; If both maxStatements and maxStatementsPerConnection are zero, statement caching will not be enabled !&ndash;&gt;-->
+    <!--<property name="maxStatementsPerConnection" value="50"/>-->
+    <!--&lt;!&ndash; default = 3 &ndash;&gt;-->
+    <!--<property name="minPoolSize" value="5"/>-->
+    <!--&lt;!&ndash;default = 15&ndash;&gt;-->
+    <!--<property name="maxPoolSize" value="20"/>-->
+    <!--</bean>-->
+
+    <!--minPoolSize - - - minIdle-->
+    <!--maxPoolSize - - - maxTotal-->
+
+    <Resource name="jdbc/dog_db"
+              username="sa"
+              password=""
+              driverClassName="org.h2.Driver"
+              url="jdbc:h2:mem:dogdb;DB_CLOSE_DELAY=-1;"
+              type="javax.sql.DataSource"
+              minIdle="5"
+              maxTotal="20"
+            />
+</Context>

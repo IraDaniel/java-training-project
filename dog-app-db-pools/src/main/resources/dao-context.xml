@@ -1,34 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- https://www.mchange.com/projects/c3p0/#maxStatements -->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-        <property name="driverClass" value="org.h2.Driver"/>
-        <property name="jdbcUrl" value="jdbc:h2:mem:dogdb;DB_CLOSE_DELAY=-1;"/>
-        <property name="user" value="sa"/>
-        <!--The size of c3p0's global PreparedStatement cache., default = 0-->
-        <property name="maxStatements" value="1500"/>
-        <!--The number of PreparedStatements c3p0 will cache for a single pooled Connection. (max)-->
-        <!-- If both maxStatements and maxStatementsPerConnection are zero, statement caching will not be enabled !-->
-        <property name="maxStatementsPerConnection" value="50"/>
-        <!-- default = 3 -->
-        <property name="minPoolSize" value="5"/>
-        <!--default = 15-->
-        <property name="maxPoolSize" value="20"/>
-    </bean>
+    <jee:jndi-lookup id="dataSource" jndi-name="jdbc/dogdb"/>
 
     <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
         <property name="dataSource" ref="dataSource"/>
-        <property name="baselineOnMigrate" value="true"/>
-        <property name="locations">
-            <list>
-                <value>h2</value>
-            </list>
-        </property>
     </bean>
+
+    <!-- https://www.mchange.com/projects/c3p0/#maxStatements -->
+    <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">-->
+        <!--<property name="driverClass" value="org.h2.Driver"/>-->
+        <!--<property name="jdbcUrl" value="jdbc:h2:mem:dogdb;DB_CLOSE_DELAY=-1;"/>-->
+        <!--<property name="user" value="sa"/>-->
+        <!--&lt;!&ndash;The size of c3p0's global PreparedStatement cache., default = 0&ndash;&gt;-->
+        <!--<property name="maxStatements" value="1500"/>-->
+        <!--&lt;!&ndash;The number of PreparedStatements c3p0 will cache for a single pooled Connection. (max)&ndash;&gt;-->
+        <!--&lt;!&ndash; If both maxStatements and maxStatementsPerConnection are zero, statement caching will not be enabled !&ndash;&gt;-->
+        <!--<property name="maxStatementsPerConnection" value="50"/>-->
+        <!--&lt;!&ndash; default = 3 &ndash;&gt;-->
+        <!--<property name="minPoolSize" value="5"/>-->
+        <!--&lt;!&ndash;default = 15&ndash;&gt;-->
+        <!--<property name="maxPoolSize" value="20"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+        <!--<property name="baselineOnMigrate" value="true"/>-->
+        <!--<property name="locations">-->
+            <!--<list>-->
+                <!--<value>h2</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <constructor-arg ref="dataSource"/>
