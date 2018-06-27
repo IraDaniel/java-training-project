@@ -6,10 +6,6 @@
 
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/dogdb"/>
 
-    <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-
     <!-- https://www.mchange.com/projects/c3p0/#maxStatements -->
     <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">-->
         <!--<property name="driverClass" value="org.h2.Driver"/>-->
@@ -26,15 +22,15 @@
         <!--<property name="maxPoolSize" value="20"/>-->
     <!--</bean>-->
 
-    <!--<bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">-->
-        <!--<property name="dataSource" ref="dataSource"/>-->
-        <!--<property name="baselineOnMigrate" value="true"/>-->
-        <!--<property name="locations">-->
-            <!--<list>-->
-                <!--<value>h2</value>-->
-            <!--</list>-->
-        <!--</property>-->
-    <!--</bean>-->
+    <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="baselineOnMigrate" value="true"/>
+        <property name="locations">
+            <list>
+                <value>h2</value>
+            </list>
+        </property>
+    </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <constructor-arg ref="dataSource"/>
