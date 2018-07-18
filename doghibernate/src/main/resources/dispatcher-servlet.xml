@@ -13,15 +13,7 @@
     <context:annotation-config/>
     <mvc:annotation-driven/>
 
-    <import resource="app-context.xml"/>
-
-    <bean id="dogService" class="com.company.service.impl.TransactionalDogService">
-        <constructor-arg ref="dogDao"/>
-        <constructor-arg ref="connectionHolder"/>
-    </bean>
-
-    <bean id="dogController" class="com.company.controller.DogController">
-        <constructor-arg ref="dogService"/>
-    </bean>
     <bean id="controllerExceptionHandler " class="com.company.controller.ControllerExceptionHandler"/>
+
+
 </beans>

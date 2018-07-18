@@ -1,0 +1,11 @@
+<hibernate-mapping>
+    <class name="com.company.entity.Dog" table="DOG">
+        <id name="id">
+            <generator class="assigned"/>
+        </id>
+        <property name="name" />
+        <property name="birthDay" column="BIRTH_DATE" />
+        <property name="weight" />
+        <property name="height" />
+    </class>
+</hibernate-mapping>

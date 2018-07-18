@@ -16,6 +16,7 @@
         <module>argsjCommander</module>
         <module>dogappaspect</module>
         <module>dog-app-db-pools</module>
+        <module>doghibernate</module>
     </modules>
 
     <packaging>pom</packaging>

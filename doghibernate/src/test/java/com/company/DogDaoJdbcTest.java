@@ -1,25 +1,21 @@
-package com.company.dao;
+package com.company;
 
-import com.company.DogTestUtils;
-import com.company.entity.Dog;
-import com.company.exception.DogNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import com.company.*;
+import com.company.entity.*;
+import com.company.exception.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.context.annotation.*;
+import org.springframework.test.context.*;
+import org.springframework.test.context.testng.*;
+import org.testng.*;
+import org.testng.annotations.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
-import static com.company.DogTestUtils.assertEqualCommonParams;
-import static com.company.DogTestUtils.assertEqualsDogs;
+import static com.company.DogTestUtils.*;
 
-@ContextConfiguration("classpath:dispatcher-servlet.xml")
-@ActiveProfiles("default")
+@ContextConfiguration("classpath:dao-context.xml")
+@ActiveProfiles("hibernate")
 public class DogDaoJdbcTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
