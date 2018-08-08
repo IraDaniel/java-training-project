@@ -2,7 +2,9 @@ package com.company.dao;
 
 import com.company.*;
 import com.company.entity.*;
+import com.company.exception.DogNotFoundException;
 import org.hibernate.*;
+import org.hibernate.query.Query;
 import org.springframework.transaction.annotation.*;
 
 import java.util.*;
@@ -33,12 +35,15 @@ public class HibernateDogDao implements DogDao {
 
     @Override
     public Dog get(UUID dogUuid) {
-        return null;
+        Dog dog = getCurrentSession().get(Dog.class, dogUuid);
+        if (dog == null) throw new DogNotFoundException(dogUuid);
+        return dog;
     }
 
     @Override
     public Collection<Dog> get() {
-        return null;
+        Query query = getCurrentSession().createNamedQuery("getAllDogs");
+        return query.list();
     }
 
     @Override
@@ -51,7 +56,7 @@ public class HibernateDogDao implements DogDao {
         return sessionFactory.getCurrentSession();
     }
 
-    void flushAndClear() {
+    public void flushAndClear() {
         getCurrentSession().flush();
         getCurrentSession().clear();
     }

@@ -6,9 +6,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.UUID;
+import java.util.*;
 
 
 public class Dog {
@@ -26,6 +28,10 @@ public class Dog {
     private int weight;
     @Min(1)
     private int height;
+
+//    private String houseName;
+
+    private Set<House> houses = new HashSet<>();
 
     public Dog() {
     }
@@ -83,6 +89,14 @@ public class Dog {
 
     public void setBirthDay(LocalDate birthDay) {
         this.birthDay = birthDay;
+    }
+
+    public Set<House> getHouses() {
+        return houses;
+    }
+
+    public void setHouses(Set<House> houses) {
+        this.houses = houses;
     }
 }
 

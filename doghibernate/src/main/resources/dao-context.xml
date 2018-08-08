@@ -9,7 +9,7 @@
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.h2.Driver"/>
         <property name="username" value="sa"/>
-        <property name="url" value="jdbc:h2:~/test"/>
+        <property name="url" value="jdbc:h2:~"/>
     </bean>
 
     <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
@@ -17,7 +17,7 @@
         <property name="baselineOnMigrate" value="true"/>
         <property name="locations">
             <list>
-                <value>sql/h2</value>
+                <value>h2</value>
             </list>
         </property>
     </bean>
@@ -25,7 +25,6 @@
     <bean id="connectionHolder" class="com.company.dao.JdbcConnectionHolder">
         <constructor-arg ref="dataSource"/>
     </bean>
-
 
 
     <beans profile="default">
@@ -46,7 +45,7 @@
             </property>
         </bean>
 
-        <!--<tx:annotation-driven/>-->
+        <tx:annotation-driven/>
         <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
             <property name="sessionFactory" ref="sessionFactory"/>
         </bean>
@@ -55,6 +54,9 @@
             <constructor-arg ref="sessionFactory"/>
         </bean>
 
+        <bean id="houseDao" class="com.company.dao.HouseDao">
+            <constructor-arg ref="sessionFactory"/>
+        </bean>
     </beans>
 
 </beans>

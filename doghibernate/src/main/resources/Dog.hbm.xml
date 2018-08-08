@@ -7,5 +7,18 @@
         <property name="birthDay" column="BIRTH_DATE" />
         <property name="weight" />
         <property name="height" />
+        <set name="houses" cascade="save-update" lazy="true" >
+            <key column="ID"/>
+            <one-to-many class="com.company.entity.House"/>
+        </set>
     </class>
+    <query name="getAllDogs">from Dog</query>
+    <class name="com.company.entity.House" table="HOUSE">
+        <id name="id">
+            <generator class="assigned"/>
+        </id>
+        <property name="name" />
+    </class>
+    <query name="getAllHouses">from House</query>
+
 </hibernate-mapping>

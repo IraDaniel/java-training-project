@@ -7,6 +7,7 @@ import org.apache.commons.lang3.*;
 import org.testng.*;
 
 import java.time.*;
+import java.util.UUID;
 
 
 public class DogTestUtils {
@@ -21,7 +22,12 @@ public class DogTestUtils {
         dog.setBirthDay(initDate(2017, 2, 12));
         dog.setHeight(RandomUtils.nextInt(1, 20));
         dog.setWeight(RandomUtils.nextInt(1, 20));
+        dog.getHouses().add(initRandomHouse());
         return dog;
+    }
+
+    private static House initRandomHouse(){
+        return new House(UUID.randomUUID(), "house");
     }
 
     public static LocalDate initDate(int year, int month, int day) {
